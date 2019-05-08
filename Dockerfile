@@ -51,8 +51,10 @@ RUN rm /sources/*.tar.gz
 RUN rm /sources/*.zip
 RUN rm -rf /opt/julia
 ADD install_cse185_deps_wk6.sh /sources
+ADD cellranger-3.0.2.tar.gz /sources
 RUN chmod +x /sources/install_cse185_deps_wk6.sh
 RUN /sources/install_cse185_deps_wk6.sh
+ENV PATH="${PATH}:/sources/cellranger-3.0.2"
 
 # Set env variables
 ENV PERL5LIB="${PERL5LIB}:/sources/sspace_basic/dotlib"
