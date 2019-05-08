@@ -1,12 +1,14 @@
 #!/bin/bash
 
+set -e
+
 ##### Week 1 ######
 # Install samtools (needed to index reference fasta files)
 cd /sources
 wget -O samtools-1.9.tar.bz2 https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9.tar.bz2
 tar -xjf samtools-1.9.tar.bz2
 cd samtools-1.9 
-./configure --without-curses && make && make install
+./configure && make && make install
 
 # Install BWA mem
 cd /sources
@@ -40,7 +42,7 @@ cp nxtrim /usr/local/bin/nxtrim
 # Install jellyfish
 cd /sources
 wget https://github.com/gmarcais/Jellyfish/releases/download/v2.2.10/jellyfish-2.2.10.tar.gz
-tar -xzvf jellyfish-2.2.10
+tar -xzvf jellyfish-2.2.10.tar.gz
 cd jellyfish-2.2.10
 ./configure
 make
@@ -74,4 +76,55 @@ git clone https://github.com/lh3/bfc
 cd bfc
 make
 cp bfc /usr/local/bin/bfc
+
+# Install SSPACE
+cd /sources
+wget https://github.com/BenLangmead/bowtie/releases/download/v1.2.2_p1/bowtie-1.2.2-linux-x86_64.zip
+unzip bowtie-1.2.2-linux-x86_64.zip
+cd bowtie-1.2.2-linux-x86_64
+cp bowtie* /usr/local/bin/
+cd /sources
+git clone https://github.com/nsoranzo/sspace_basic
+cd sspace_basic
+cp SSPACE_Basic_v2.0.pl /usr/local/bin/SSPACE_Basic_v2.0.pl
+cp -r /sources/sspace_basic/bin /usr/local/bin/
+
+# Install Plink
+cd /sources
+wget http://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20190304.zip
+unzip plink_linux_x86_64_20190304.zip
+cp plink /usr/local/bin
+
+# Install bedtools
+cd /sources
+wget https://github.com/arq5x/bedtools2/releases/download/v2.28.0/bedtools-2.28.0.tar.gz
+tar -zxvf bedtools-2.28.0.tar.gz
+cd bedtools2
+make
+make install
+
+# Install htslib (with tabix)
+cd /sources
+wget -O htslib-1.8.tar.bz2 https://github.com/samtools/htslib/releases/download/1.8/htslib-1.8.tar.bz2
+tar -xjvf htslib-1.8.tar.bz2
+cd htslib-1.8/
+./configure
+make
+make install
+
+# Install bcftools
+cd /sources
+wget -O bcftools-1.9.tar.bz2 https://github.com/samtools/bcftools/releases/download/1.9/bcftools-1.9.tar.bz2
+tar -xjvf bcftools-1.9.tar.bz2
+cd bcftools-1.9
+./configure
+make
+make install
+
+# Install VCFTools
+cd /sources
+wget https://github.com/vcftools/vcftools/releases/download/v0.1.16/vcftools-0.1.16.tar.gz
+tar -xzvf vcftools-0.1.16.tar.gz
+cd vcftools-0.1.16
+./autogen.sh && ./configure && make && make install
 
